@@ -30,14 +30,14 @@ def parse_track_features(track):
         feature_vec[i, 6] = row['liveness']
         feature_vec[i, 7] = row['valence']
 
-    return feature_vec.mean(0)[0]
+    return feature_vec.mean(0)
 
 def parse_genres(artists, genre_dict):
     genre_vec = np.zeros((1000))
     for artist in artists:
         for genre in artist:
             if genre in genre_dict:
-                genre_vec[genre_dict[genre]-1] += 1 
+                genre_vec[genre_dict[genre]-1] += 1
     genre_csr = scipy.sparse.csr_matrix(genre_vec)
 
     return genre_csr

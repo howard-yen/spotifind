@@ -45,7 +45,6 @@ def get_top_tracks_features(auth):
         trackids.append(row['id'])
 
     response = requests.get(url.format('%2C'.join(trackids)), headers = headers)
-    print(response)
     if response.status_code != 200:
         print('get top tracks features didnt work')
         exit()
