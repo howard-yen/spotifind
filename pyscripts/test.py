@@ -1,7 +1,7 @@
 from parse import *
 from getinfo import *
 
-auth = 'BQCMqQfNMm7r_ngkXeWwJWdWDJ6hyCRAO-0g7EHuC1K80sqbhtxal2emzud00JwvXLvo_3X4DvNXRqX6_1nUcej2TjRgiSrXvivP_SRxFcB6siy1Y_gTCTYKJaCJ6HFn7dFyFdgGobyxuyr-aZ23_UTXsCczEgDMvw4H_0vSff0'
+auth = 'BQC8Ez1MxOcOTASDHdE1h22PP2nG4GREwjKjSnW7nBx547pfrm-bbu0OJc_CFg1Fm91oeNRHvF99tXXThNxwi2C9F1fV1nRIKWMPGLLpdPy4pHUNvvMZAyfWwGfF2Ul3v5x9pv9Yn8s-NRfCWCQB8PwZitnbaSi-fwcggFx_aoI'
 dct = read_genres()
 t = get_top_tracks_features(auth)
 track_vector = parse_track_features(t)
@@ -13,3 +13,11 @@ print(genre_vector)
 print(genre_vector.shape)
 combined_vector = combine_vectors(track_vector, genre_vector)
 print(combined_vector)
+print(combined_vector.shape)
+# save data
+combined_vector = np.expand_dims(combined_vector, axis=0)
+np.savetxt('user_vectors.csv', combined_vector, delimiter=',')
+# load data
+my_data = np.genfromtxt('user_vectors.csv', delimiter=',')
+print(my_data)
+print(my_data.shape)
