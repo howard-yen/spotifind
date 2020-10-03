@@ -18,7 +18,7 @@ def read_genres():
 # return a 1d array of the average track features
 def parse_track_features(track):
     audio_features = track['audio_features']
-    feature_vec = np.zeros((len(audio_features), 9))
+    feature_vec = np.zeros((len(audio_features), 8))
 
     for i, row in enumerate(audio_features):
         feature_vec[i, 0] = row['danceability']
@@ -29,16 +29,20 @@ def parse_track_features(track):
         feature_vec[i, 5] = row['instrumentalness']
         feature_vec[i, 6] = row['liveness']
         feature_vec[i, 7] = row['valence']
-        feature_vec[i, 8] = row['tempo']
 
     return feature_vec.mean(0)
-
 
 def parse_genres(artists, genre_dict):
     genre_vec = np.zeros((1000))
     for artist in artists:
         for genre in artist:
-            genre_vec[genre_dict[genre]] += 1
+            if genre in genre_dict:
+                genre_vec[genre_dict[genre]-1] += 1
     genre_csr = scipy.sparse.csr_matrix(genre_vec)
 
     return genre_csr
+
+def combine_vectors(song_vector, genre_vector):
+    combined = scipy.sparse.hstack([song_vector, genre_vector])
+
+    return combined
