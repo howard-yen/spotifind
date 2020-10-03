@@ -31,7 +31,7 @@ def parse_track_features(track):
         feature_vec[i, 7] = row['valence']
         feature_vec[i, 8] = row['tempo']
 
-    return feature_vec.mean(0)[0]
+    return feature_vec.mean(0)
 
 
 def parse_genres(artists, genre_dict):
