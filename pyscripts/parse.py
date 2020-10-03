@@ -16,7 +16,7 @@ def read_genres():
 
 def parse_track_features(track):
     audio_features = track['audio_features'][0]
-    feature_vec = np.zeros((9))
+    feature_vec = np.zeros((8))
     feature_vec[0] = audio_features['danceability']
     feature_vec[1] = audio_features['energy']
     feature_vec[2] = audio_features['loudness']
@@ -25,7 +25,6 @@ def parse_track_features(track):
     feature_vec[5] = audio_features['instrumentalness']
     feature_vec[6] = audio_features['liveness']
     feature_vec[7] = audio_features['valence']
-    feature_vec[8] = audio_features['tempo']
     return feature_vec
 
 def parse_genres(artists, genre_dict):
@@ -33,7 +32,12 @@ def parse_genres(artists, genre_dict):
     for artist in artists:
         for genre in artist:
             if genre in genre_dict:
-                genre_vec[genre_dict[genre]] += 1 
+                genre_vec[genre_dict[genre]-1] += 1 
     genre_csr = scipy.sparse.csr_matrix(genre_vec)
 
     return genre_csr
+
+def combine_vectors(song_vector, genre_vector):
+    combined = scipy.sparse.hstack([song_vector, genre_vector])
+
+    return combined
