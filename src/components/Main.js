@@ -15,16 +15,15 @@ class Main extends Component {
   componentDidMount() {
     this.interval = setInterval(() => this.tick(), 5000);
     this.socket = socketIOClient(ENDPOINT);
-    this.socket.on("updateUsers", data => {
+    this.socket.on("update", data => {
       console.log(data);
       this.setState({ response: data });
     });
-    this.socket.emit('update user', this.props.token);
+    this.socket.emit('new user', this.props.token);
   }
 
   componentWillUnmount(props) {
     clearInterval(this.interval);
-    this.socket.emit('disconnect user', this.props.token);
     this.socket.disconnect();
   }
 
@@ -55,8 +54,12 @@ class Main extends Component {
 
   render() {
     return (
-      <div>
-      {JSON.stringify(this.state.response)}
+      <div className="h-100 row">
+        <div className="col d-flex align-items-center">
+          <div className="card">
+            {JSON.stringify(this.state.response)}
+          </div>
+        </div>
       </div>
     )
   }
