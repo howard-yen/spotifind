@@ -25,8 +25,8 @@ def get_song(auth, songid):
 # take a list of album ids
 def get_albums(auth, albumid):
     url = 'https://api.spotify.com/v1/albums?ids={}'
-    header = {'Accept': 'aplication/json', 'Content-Type': 'application/json', 'Authorization': 'Bearer {}'.format(auth)}
-    response = requests.get(url.format('%2C'.join(albumid)))
+    headers = {'Accept': 'aplication/json', 'Content-Type': 'application/json', 'Authorization': 'Bearer {}'.format(auth)}
+    response = requests.get(url.format('%2C'.join(albumid)), headers=headers)
     if response.status_code != 200:
         print('get albums didnt work')
         exit()
@@ -37,7 +37,7 @@ def get_albums(auth, albumid):
 def get_top_tracks_features(auth):
     #url = 'https://api.spotify.com/v1/audio-features?ids={}'
     url = 'https://api.spotify.com/v1/audio-features?ids=3v8FOuA8jxAC5SOA2uN6Mg'
-    header = {'Accept': 'aplication/json', 'Content-Type': 'application/json', 'Authorization': 'Bearer {}'.format(auth)}
+    headers = {'Accept': 'aplication/json', 'Content-Type': 'application/json', 'Authorization': 'Bearer {}'.format(auth)}
 
     top = get_top(auth, True)
     processed = []
@@ -45,7 +45,7 @@ def get_top_tracks_features(auth):
     for row in top['items']:
         trackids.append(row['id'])
 
-    response = requests.get(url.format('%2C'.join(trackids)))
+    response = requests.get(url.format('%2C'.join(trackids)), headers=headers)
     print(response)
     if response.status_code != 200:
         print('get top tracks features didnt work')
@@ -61,7 +61,7 @@ def get_top_artists_genres(auth):
     return processed
 
 if __name__ == '__main__':
-    auth = ''
+    auth = 'BQDCe4SR_RkSsp8GlVAp1GS_qv3LMHQLC2qE9wq_KlW0Xe7SZwHL3th7gFa7eYZezdGeXXnCC_m1xTJsaa4dx1TbT61uBOvHZ2w2QqxULIUIabTz40IF_mQmn6waKUhLV6dK5qCwIX_zXwEbAs1dptGgXiwiuM3TX6yjcEGqzfQ'
     t = get_top_tracks_features(auth)
     print(t)
 
