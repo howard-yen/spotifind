@@ -1,5 +1,44 @@
 body {
+  height: 100vh;
   background: #454955 !important;
   color: #F3EFF5 !important;
 
+  #root {
+    height: 100vh;
+  }
+
+  .App, .home, .main-page, .login-page {
+    height: 100%;
+  }
+
+  .card-display {
+    text-align: center;
+    width: 50%;
+  }
+
+  .card {
+    color: #000000 !important;
+  }
+  
+  #welcome {
+    font-size: 30px;
+    font-weight: bold;
+    color: #000000;
+    padding: 20px;
+  }
+
+  #description {
+    font-size: 15px;
+    color: #000000;
+    padding: 20px;
+  }
+
+  .login-container {
+    text-align: center;
+    height: 50vh;
+    width: 300px;
+    background: #FFFFFF;
+    border-radius: 7px;
+    padding: 25px;
+  }
 }

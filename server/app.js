@@ -13,41 +13,37 @@ const server = http.createServer(app);
 const io = socketIo(server);
 
 let interval;
-let users = [];
+let clientTokens = {};
+let sockets = [];
 
 io.on("connection", (socket) => {
   console.log("New client connected");
+  sockets.push(socket);
+
   if (interval) {
     clearInterval(interval);
   }
+
+  // Update users every 1 second
   interval = setInterval(() => updateUsers(socket), 1000);
-  socket.on("update user", function(data) {
-    if(!users.includes(data)) {
-      console.log("pushed");
-      users.push(data);
+
+  // Add to clientTokens when user updated
+  socket.on("new user", function(data) {
+    if(!clientTokens.hasOwnProperty(data)) {
+      clientTokens[socket.id] = data;
     }
   });
-  socket.on("disconnect user", function(data) {
-    console.log("called");
-    if(users.includes(data)) {
-      const index = users.indexOf(data);
-      users.splice(index, 1);
-    }
-  });
+
+  // cleanup
   socket.on("disconnect", () => {
+    clientTokens[socket.id] = undefined;
     console.log("Client disconnected");
-    clearInterval(interval);
   });
 });
 
-const getApiAndEmit = socket => {
-  const response = new Date();
-  // Emitting a new message. Will be consumed by the client
-  socket.emit("FromAPI", response);
-};
-
+// Send users data
 const updateUsers = socket => {
-  io.sockets.emit("updateUsers", users);
+  io.sockets.emit("update", clientTokens);
 }
 
 server.listen(port, () => console.log(`Listening on port ${port}`));
