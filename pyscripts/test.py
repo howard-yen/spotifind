@@ -15,6 +15,7 @@ combined_vector = combine_vectors(track_vector, genre_vector)
 print(combined_vector)
 print(combined_vector.shape)
 # save data
+combined_vector = np.expand_dims(combined_vector, axis=0)
 np.savetxt('user_vectors.csv', combined_vector, delimiter=',')
 # load data
 my_data = np.genfromtxt('user_vectors.csv', delimiter=',')
