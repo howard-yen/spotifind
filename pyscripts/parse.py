@@ -38,11 +38,11 @@ def parse_genres(artists, genre_dict):
         for genre in artist:
             if genre in genre_dict:
                 genre_vec[genre_dict[genre]-1] += 1
-    genre_csr = scipy.sparse.csr_matrix(genre_vec)
+    #genre_csr = scipy.sparse.csr_matrix(genre_vec)
 
-    return genre_csr
+    return genre_vec
 
 def combine_vectors(song_vector, genre_vector):
-    combined = scipy.sparse.hstack([song_vector, genre_vector])
-
+    #combined = scipy.sparse.hstack([song_vector, genre_vector])
+    combined = np.append(song_vector, genre_vector)
     return combined
