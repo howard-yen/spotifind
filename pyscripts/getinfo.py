@@ -26,7 +26,7 @@ def get_song(auth, songid):
 def get_albums(auth, albumid):
     url = 'https://api.spotify.com/v1/albums?ids={}'
     headers = {'Accept': 'aplication/json', 'Content-Type': 'application/json', 'Authorization': 'Bearer {}'.format(auth)}
-    response = requests.get(url.format('%2C'.join(albumid)), headers=headers)
+    response = requests.get(url.format('%2C'.join(albumid)))
     if response.status_code != 200:
         print('get albums didnt work')
         exit()
@@ -35,8 +35,7 @@ def get_albums(auth, albumid):
 # get the features of the top tracks of the user
 # returns a json where 'audio_features' contains a list of features
 def get_top_tracks_features(auth):
-    #url = 'https://api.spotify.com/v1/audio-features?ids={}'
-    url = 'https://api.spotify.com/v1/audio-features?ids=3v8FOuA8jxAC5SOA2uN6Mg'
+    url = 'https://api.spotify.com/v1/audio-features?ids={}'
     headers = {'Accept': 'aplication/json', 'Content-Type': 'application/json', 'Authorization': 'Bearer {}'.format(auth)}
 
     top = get_top(auth, True)
@@ -45,7 +44,7 @@ def get_top_tracks_features(auth):
     for row in top['items']:
         trackids.append(row['id'])
 
-    response = requests.get(url.format('%2C'.join(trackids)), headers=headers)
+    response = requests.get(url.format('%2C'.join(trackids)), headers = headers)
     print(response)
     if response.status_code != 200:
         print('get top tracks features didnt work')
@@ -53,6 +52,7 @@ def get_top_tracks_features(auth):
 
     return response.json()
 
+# get a user's top artists and then get their genres
 def get_top_artists_genres(auth):
     top = get_top(auth, False)
     processed = []
@@ -61,7 +61,7 @@ def get_top_artists_genres(auth):
     return processed
 
 if __name__ == '__main__':
-    auth = 'BQDCe4SR_RkSsp8GlVAp1GS_qv3LMHQLC2qE9wq_KlW0Xe7SZwHL3th7gFa7eYZezdGeXXnCC_m1xTJsaa4dx1TbT61uBOvHZ2w2QqxULIUIabTz40IF_mQmn6waKUhLV6dK5qCwIX_zXwEbAs1dptGgXiwiuM3TX6yjcEGqzfQ'
+    auth = 'BQChi-zWJcd4DBwhS8yUhi2DYf-TkTqnuj52dAaLaEX9Kk5a0XifTU1t_zo9Ynh2TeUURRCv8d2GN1D0gf1tlodWAgfzHlrM1zddbM_9sUbe97o9kIMc9C65sg25vBN92lSDa5ej05GhFrU-BbkJCiskon0YRG5OQApfx_VizOd5EEX56zEQITfesy0T2QOUGvLTJBfesTCo0ErjDpjCmV7gqAtgkaMjz910VA5A6xT7lCN0PeXTAJRZ80MFLVzj_VbuPBi3lcRc'
     t = get_top_artists_genres(auth)
     print(t)
 
