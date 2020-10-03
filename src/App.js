@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import * as $ from "jquery";
-import { authEndpoint, clientId, redirectUri, scopes } from "./services/config";
 import hash from "./services/hash";
+import Main from "./components/Main";
+import Login from "./components/Login";
 import Player from "./components/Player";
-import logo from "./logo.svg";
-import "./App.css";
+import "./App.scss";
 
 class App extends Component {
   constructor() {
@@ -28,27 +28,25 @@ class App extends Component {
     this.tick = this.tick.bind(this);
   }
 
-
-
   componentDidMount() {
-    // Set token
     let _token = hash.access_token;
 
     if (_token) {
-      // Set token
       this.setState({
         token: _token
       });
       this.getCurrentlyPlaying(_token);
     }
 
-    // set interval for polling every 5 seconds
     this.interval = setInterval(() => this.tick(), 5000);
   }
 
   componentWillUnmount() {
-    // clear the interval to save resources
     clearInterval(this.interval);
+  }
+
+  componentDidUpdate() {
+    console.log(this);
   }
 
   tick() {
@@ -59,7 +57,6 @@ class App extends Component {
 
 
   getCurrentlyPlaying(token) {
-    // Make a call using the token
     $.ajax({
       url: "https://api.spotify.com/v1/me/player",
       type: "GET",
@@ -67,13 +64,14 @@ class App extends Component {
         xhr.setRequestHeader("Authorization", "Bearer " + token);
       },
       success: data => {
-        // Checks if the data is not empty
         if(!data) {
           this.setState({
             no_data: true,
           });
           return;
         }
+
+        console.log(data);
 
         this.setState({
           item: data.item,
@@ -89,31 +87,20 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
+        <div className="main">
+
+          {/* Not logged in */ }
           {!this.state.token && (
-            <a
-              className="btn btn--loginApp-link"
-              href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join(
-                "%20"
-              )}&response_type=token&show_dialog=true`}
-            >
-              Login to Spotify
-            </a>
+            <Login />
           )}
-          {this.state.token && !this.state.no_data && (
-            <Player
+
+          {/* Logged in */}
+          {this.state.token && (
+            <Main
               item={this.state.item}
-              is_playing={this.state.is_playing}
-              progress_ms={this.state.progress_ms}
             />
           )}
-          {this.state.no_data && (
-            <p>
-              You need to be playing a song on Spotify, for something to appear here.
-            </p>
-          )}
-        </header>
+        </div>
       </div>
     );
   }
