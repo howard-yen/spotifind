@@ -1,17 +1,18 @@
 import pandas as pd
 import numpy as np
+import scipy.sparse
 
 def read_genres():
-    genres_csv = pd.read_csv('genres.csv')
+    genre_csv = pd.read_csv('genres.csv')
     
-    nums = genres_csv['number'].to_numpy()
-    genre = genres_csv['genre'].to_numpy()
+    nums = genre_csv['number'].to_numpy()
+    genre = genre_csv['genre'].to_numpy()
     
-    genres_dict = dict()
+    genre_dict = dict()
     for i in nums:
-        genres_dict[genre[i-1]] = i 
+        genre_dict[genre[i-1]] = i 
 
-    return genres_dict
+    return genre_dict
 
 def parse_track_features(track):
     audio_features = track['audio_features'][0]
@@ -26,3 +27,12 @@ def parse_track_features(track):
     feature_vec[7] = audio_features['valence']
     feature_vec[8] = audio_features['tempo']
     return feature_vec
+
+def parse_genres(artists, genre_dict):
+    genre_vec = np.zeros((1000))
+    for artist in artists:
+        for genre in artist:
+            genre_vec[genre_dict[genre]] += 1 
+    genre_csr = scipy.sparse.csr_matrix(genre_vec)
+
+    return genre_csr
