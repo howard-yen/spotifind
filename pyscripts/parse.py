@@ -46,3 +46,13 @@ def combine_vectors(song_vector, genre_vector):
     #combined = scipy.sparse.hstack([song_vector, genre_vector])
     combined = np.append(song_vector, genre_vector)
     return combined
+
+def get_neighbor_ids(indices):
+    user_ids = pd.read_csv('user_ids.csv')
+    user_ids = user_ids['user_id'].to_numpy()
+    nbr_ids = []
+    for i, row in enumerate(indices):
+        nbr_ids.append([])
+        for idx in row:
+            nbr_ids[i].append(user_ids[idx])
+    return nbr_ids
