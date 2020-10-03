@@ -32,7 +32,8 @@ def parse_genres(artists, genre_dict):
     genre_vec = np.zeros((1000))
     for artist in artists:
         for genre in artist:
-            genre_vec[genre_dict[genre]] += 1 
+            if genre in genre_dict:
+                genre_vec[genre_dict[genre]] += 1 
     genre_csr = scipy.sparse.csr_matrix(genre_vec)
 
     return genre_csr
