@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import socketIOClient from "socket.io-client";
-const ENDPOINT = "http://127.0.0.1:4001";
+import io from "socket.io-client";
+const ENDPOINT = "http://127.0.0.1:5000";
 
 class Main extends Component {
   constructor(props) {
@@ -13,13 +13,16 @@ class Main extends Component {
   }
 
   componentDidMount() {
-    this.interval = setInterval(() => this.tick(), 5000);
-    this.socket = socketIOClient(ENDPOINT);
+    this.socket = io.connect(ENDPOINT, {
+      reconnection: true,
+    });
     this.socket.on("update", data => {
       console.log(data);
       this.setState({ response: data });
     });
     this.socket.emit('new user', this.props.token);
+    this.interval = setInterval(() => this.tick(), 5000);
+    this.tick();
   }
 
   componentWillUnmount(props) {
@@ -28,7 +31,9 @@ class Main extends Component {
   }
 
   tick() {
-    if(this.props.item) {
+    this.socket.emit('update ping', "");
+    console.log("emit");
+    /* if(this.props.item) {
       const requestOptions = {
         method : 'POST',
         headers: { 'Content-Type' : 'application/json'},
@@ -39,17 +44,15 @@ class Main extends Component {
       fetch('/endpoint', requestOptions)
         .then(res => res.json())
         .then(res => {
-          /*
             props.setSentiment(res.sentiment);
             props.setVerdict(res.verdict);
             props.setKeywords(res.keywords);
             props.setSentences(res.worstSentence.map((sentence, i) => {
               return [sentence, res.worstScore[i]];
           }).filter((item) => item[0] !== ''));
-          */
           console.log("success")
       });
-    }
+    }*/
   }
 
   render() {
