@@ -2,19 +2,13 @@ import React from "react";
 import Default from "../Assets/default.png";
 
 const Card = props => {
-  const backgroundStyles = {
-    backgroundImage:`url(${
-      props.data.image.url
-    })`,
-  };
-
   return (
     <div className="card rec-card">
       <div className="">
         <div className="card-img-top">
           {props.data.image.url ?
-          <img className="album-art" src={props.data.image.url} /> :
-          <img className="album-art" src={Default} />
+          <img className="album-art" src={props.data.image.url} alt="" /> :
+          <img className="album-art" src={Default} alt="" />
           }
         </div>
         <div className="card-body">

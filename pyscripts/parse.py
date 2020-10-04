@@ -39,7 +39,8 @@ def update_db(clients, clients_location):
         newclients.append([i] + [clients[i]] + [clients_location[i]['lat'], clients_location[i]['lon']] + full_feats.tolist())
 
     for i in range(len(newclients)):
-        userdata.loc[i] = newclients[i]
+        userdata.loc[-1] = newclients[i]
+        userdata.index += 1
 
     # print(userdata.to_csv(index=False))
     with open('userdata.csv', 'w') as f:

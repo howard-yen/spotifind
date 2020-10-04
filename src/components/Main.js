@@ -5,89 +5,6 @@ import Card from "./Card";
 
 const ENDPOINT = "http://127.0.0.1:5000";
 
-const neighbors = [
-  {
-    "user_id": 1234,
-    "image": {
-      "height": 5,
-      "url": "https://images.unsplash.com/photo-1549880338-65ddcdfd017b",
-      "width": 5,
-    },
-    "albumname": "andrew",
-    "url": "example.com",
-  },
-  {
-    "user_id": 51231,
-    "image": {
-      "height": 5,
-      "url": "https://images.unsplash.com/photo-1549880338-65ddcdfd017b",
-      "width": 5,
-    },
-    "albumname": "catJAM",
-    "url": "example.com",
-  },
-  {
-    "user_id": 51231,
-    "image": {
-      "height": 5,
-      "url": "https://images.unsplash.com/photo-1549880338-65ddcdfd017b",
-      "width": 5,
-    },
-    "albumname": "catJAM",
-    "url": "example.com",
-  },
-  {
-    "user_id": 51231,
-    "image": {
-      "height": 5,
-      "url": "https://images.unsplash.com/photo-1549880338-65ddcdfd017b",
-      "width": 5,
-    },
-    "albumname": "catJAM",
-    "url": "example.com",
-  },
-  {
-    "user_id": 51231,
-    "image": {
-      "height": 5,
-      "url": "https://images.unsplash.com/photo-1549880338-65ddcdfd017b",
-      "width": 5,
-    },
-    "albumname": "catJAM",
-    "url": "example.com",
-  },
-  {
-    "user_id": 51231,
-    "image": {
-      "height": 5,
-      "url": "https://images.unsplash.com/photo-1549880338-65ddcdfd017b",
-      "width": 5,
-    },
-    "albumname": "catJAM",
-    "url": "example.com",
-  },
-  {
-    "user_id": 51231,
-    "image": {
-      "height": 5,
-      "url": "https://images.unsplash.com/photo-1549880338-65ddcdfd017b",
-      "width": 5,
-    },
-    "albumname": "catJAM",
-    "url": "example.com",
-  },
-  {
-    "user_id": 51231,
-    "image": {
-      "height": 5,
-      "url": "https://images.unsplash.com/photo-1549880338-65ddcdfd017b",
-      "width": 5,
-    },
-    "albumname": "catJAM",
-    "url": "example.com",
-  },
-]
-
 class Main extends Component {
   constructor(props) {
     super(props);
@@ -102,7 +19,6 @@ class Main extends Component {
       reconnection: true,
     });
     this.socket.on("update", data => {
-      console.log(this);
       console.log(data);
       this.setState({ nearby: data });
     });
@@ -123,6 +39,7 @@ class Main extends Component {
         await this.socket.emit('update ping', coords);
       });
     } else {
+      console.log("called");
       this.socket.emit('update ping', {});
     }
     /* if(this.props.item) {
@@ -160,6 +77,11 @@ class Main extends Component {
           </div>
           <div className="col-sm-8 h-100 d-flex justify-content-center">
             <div className="card-columns">
+              {this.state.nearby.map(data => {
+                return (
+                  <Card data={data} />
+                );
+              })}
             </div>
           </div>
         </div>

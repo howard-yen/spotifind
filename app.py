@@ -4,11 +4,14 @@ from flask import Flask, request
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 from pyscripts.main import *
+from shutil import copyfile
 
 app = Flask(__name__, static_folder='build/', static_url_path='/')
 CORS(app)
 app.debug = 'DEBUG' in os.environ
 socketio = SocketIO(app, cors_allowed_origins="*")
+
+copyfile('userdata_empty.csv', 'userdata.csv')
 
 clients = dict()
 clients_location = dict()
@@ -23,13 +26,12 @@ def on_connect():
 def handle_new_user(data):
     socket_id = request.sid
     clients[socket_id] = data
-    print(clients)
 
 @socketio.on('update ping')
 def handle_update_ping(data):
     socket_id = request.sid
     clients_location[socket_id] = data
-    new_data = main(clients, clients_location)
+    new_data = main(clients, clients_location)[socket_id]
     emit("update", new_data)
 
 @socketio.on('disconnect')
@@ -39,8 +41,6 @@ def on_disconnect():
         del clients[socket_id]
     if socket_id in clients_location:
         del clients_location[socket_id]
-    new_data = main(clients, clients_location)
-    emit("update", new_data)
     print("disconnected!")
 
 @app.route('/')

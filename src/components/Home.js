@@ -2,9 +2,7 @@ import React, { Component } from "react";
 import * as $ from "jquery";
 import hash from "../services/hash";
 import Main from "./Main";
-import Login from "./Login";
 import LoginPage from "./LoginPage";
-import Player from "./Player";
 
 class Home extends Component {
   constructor() {
