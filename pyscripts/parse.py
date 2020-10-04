@@ -26,6 +26,8 @@ def update_db(clients, clients_location):
         else:
             del clients2[user_id]
 
+    print("CLIENTS")
+    print(clients2)
     newclients = []
     for i in clients2:
         token = clients[i]
@@ -39,7 +41,8 @@ def update_db(clients, clients_location):
         newclients.append([i] + [clients[i]] + [clients_location[i]['lat'], clients_location[i]['lon']] + full_feats.tolist())
 
     for i in range(len(newclients)):
-        userdata.loc[i] = newclients[i]
+        userdata.loc[-1] = newclients[i]
+        userdata.index += 1
 
     # print(userdata.to_csv(index=False))
     with open('userdata.csv', 'w') as f:

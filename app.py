@@ -4,11 +4,14 @@ from flask import Flask, request
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 from pyscripts.main import *
+from shutil import copyfile
 
 app = Flask(__name__, static_folder='build/', static_url_path='/')
 CORS(app)
 app.debug = 'DEBUG' in os.environ
 socketio = SocketIO(app, cors_allowed_origins="*")
+
+copyfile('userdata_empty.csv', 'userdata.csv')
 
 clients = dict()
 clients_location = dict()

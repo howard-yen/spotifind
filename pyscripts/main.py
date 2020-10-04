@@ -4,14 +4,9 @@ from .knn import *
 from .getinfo import *
 
 def main(clients, clients_location):
-    if(len(clients) == 0):
-        return {}
-
     read_genres()
     length = update_db(clients, clients_location)
 
-    if(length == 0):
-        return {}
 
     nearby = get_nearby()
 
