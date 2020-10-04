@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import scipy.sparse
-import * from getinfo
+from getinfo import *
 
 genre_dict = dict()
 
@@ -16,12 +16,13 @@ def read_genres():
 
     return genre_dict
 
-def udpate_db(clients, clients_location):
+def update_db(clients, clients_location):
     userdata = pd.read_csv('userdata.csv')
 
     ids = userdata['user_id'].to_numpy()
     for i in ids:
         if not i in clients:
+            print(i)
             userdata.drop([i])
         else:
             del clients[i]
@@ -30,18 +31,19 @@ def udpate_db(clients, clients_location):
     for i in clients:
         token = clients[i]
         top_tracks = get_top(token)
-        tracks = get_features_from_tracks(auth, top_tracks)
+        tracks = get_features_from_tracks(token, top_tracks)
         artists = get_top_artists_genres(token)
 
         track_feats = parse_track_features(tracks)
         genre_feats = parse_genres(artists)
         full_feats = combine_vectors(track_feats, genre_feats)
-        newclients.append([i] + [clients[i]] + [clients_location[i].lat, clients_location[i].lon] + full_feats.tolist())
+        newclients.append([i] + [clients[i]] + [clients_location[i]['lat'], clients_location[i]['lon']] + full_feats.tolist())
 
     for i in range(len(newclients)):
         userdata.loc[i] = newclients[i]
 
-    with open('userdata.csv') as f:
+    # print(userdata.to_csv(index=False))
+    with open('userdata.csv', 'w') as f:
         userdata.to_csv(f, index=False)
 
 # input the top tracks from spotify api

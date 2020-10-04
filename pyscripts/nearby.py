@@ -14,12 +14,14 @@ def hav_dist(lat1, lon1, lat2, lon2):
     return angle
 
 def get_nearby():
-    userdata = pd.read_csv('userdata.csv', usecols=['user_id', 'latitude', 'longitude'])
+    userdata = pd.read_csv('userdata.csv', usecols=['user_id', 'lat', 'long'])
     ids = userdata['user_id'].to_numpy()
-    lats = userdata['latitude'].to_numpy()
-    lons = userdata['longitude'].to_numpy()
+    lats = userdata['lat'].to_numpy()
+    lons = userdata['long'].to_numpy()
 
-    dists = hav_dist(lat, lon, lats, lons)
+    dists = np.zeros((len(ids), len(ids)))
+    for i, (lat, lon) in enumerate(zip(lats, lons)):
+        dists[i] = hav_dist(lat, lon, lats, lons)
 
     nearby_ids = {}
     for i in ids:

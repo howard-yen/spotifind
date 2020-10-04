@@ -9,7 +9,7 @@ def get_top(auth, tracks=True, limit=10):
         param = 'artists'
     response = requests.get(url.format(param, limit=limit), headers=headers)
     if response.status_code != 200:
-        print("get top didn't work")
+        print("get top didn't work", response.status_code)
         exit()
     return response.json()
 
@@ -55,7 +55,7 @@ def get_features_from_tracks(auth, tracks):
     headers = {'Accept': 'aplication/json', 'Content-Type': 'application/json', 'Authorization': 'Bearer {}'.format(auth)}
 
     trackids = []
-    for row in top['itmes']:
+    for row in tracks['items']:
         trackids.append(row['id'])
 
     response = requests.get(url.format('%2C'.join(trackids)), headers = headers)
@@ -77,29 +77,34 @@ def get_top_artists_genres(auth):
 # get the images of the top track for each user
 # return a list of userids, images, and track name
 def get_neighbors_tracks(usertokens, userids):
-    result = {'items': []}
+    # result = {'items': []}
+    result = []
     for auth, user in zip(usertokens, userids):
         top = get_top(auth, True, 1)
         track = top['items'][0]['album']
         temp = {}
-        temp['userid'] = user
+        temp['user_id'] = user
         temp['image'] = track['images'][0]
         temp['albumname'] = track['name']
-        temp['url'] = track['external_url']
-        result['items'].append(temp)
+        temp['url'] = track['external_urls']['spotify']
+        temp['uri'] = track['uri']
+        result.append(temp)
+        # result['items'].append(temp)
     return result
 
 # input a list of userids and a list of usertracks json
 def get_neighbors_from_tracks(userids, usertracks):
-    result = {'items': []}
+    # result = {'items': []}
+    result = []
     for user, tracks in zip(userids, usertracks):
         track = tracks['items'][0]['album']
         temp = {}
-        temp['userid'] = user
+        temp['user_id'] = user
         temp['image'] = track['images'][0]
         temp['albumname'] = track['name']
         temp['url'] = track['external_url']
-        result['items'].append(temp)
+        # result['items'].append(temp)
+        result.append(temp)
     return result
 
 if __name__ == '__main__':
