@@ -10,15 +10,13 @@ const LoginPage = props => {
         <div className="col" />
         <div className="col d-flex align-items-center">
           <div className="card login-container">
-            <div logo="logo">
-            </div>
             <div id="welcome">
               Welcome to Spotifind!
             </div>
             <div className="description">
               Need some new tracks for your mixtape?
             </div>
-              <img src={logo} alt="" />
+            <img src={logo} alt="" />
             <div className="description">
               Discover music based on what people are listening to nearby!
             </div>
