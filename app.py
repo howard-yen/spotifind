@@ -30,13 +30,14 @@ def on_connect():
 def handle_new_user(data):
     socket_id = request.sid
     clients[socket_id] = data
-    main(clients)
     emit("update", clients, broadcast=True)
 
 @socketio.on('update ping')
 def handle_update_ping(data):
     socket_id = request.sid
     clients_location[socket_id] = data
+    print(clients_location)
+    main(clients, clients_location)
     emit("update", clients_location, broadcast=True)
 
 @socketio.on('disconnect')
@@ -46,7 +47,7 @@ def on_disconnect():
         del clients[socket_id]
     if socket_id in clients_location:
         del clients_location[socket_id]
-    main(clients)
+    main(clients, clients_location)
     print("disconnected!")
 
 @app.route('/')
