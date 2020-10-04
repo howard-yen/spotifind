@@ -10,6 +10,7 @@ app.debug = 'DEBUG' in os.environ
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 clients = dict()
+clients_location = dict()
 
 def set_interval(func, sec):
     def func_wrapper():
@@ -28,18 +29,21 @@ def on_connect():
 def handle_new_user(data):
     socket_id = request.sid
     clients[socket_id] = data
-    emit("update", clients, broadcast=True)
+    emit("update", clients_location, broadcast=True)
 
 @socketio.on('update ping')
 def handle_update_ping(data):
-    print('update!')
-    emit("update", clients, broadcast=True)
+    socket_id = request.sid
+    clients_location[socket_id] = data
+    emit("update", clients_location, broadcast=True)
 
 @socketio.on('disconnect')
 def on_disconnect():
     socket_id = request.sid
     if socket_id in clients:
         del clients[socket_id]
+    if socket_id in clients_location:
+        del clients_location[socket_id]
     print("disconnected!")
 
 @app.route('/')

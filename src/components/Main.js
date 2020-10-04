@@ -19,7 +19,6 @@ class Main extends Component {
       reconnection: true,
     });
     this.socket.on("update", data => {
-      console.log(data);
       this.setState({ response: data });
     });
     this.socket.emit('new user', this.props.token);
@@ -33,8 +32,15 @@ class Main extends Component {
   }
 
   tick() {
-    this.socket.emit('update ping', "");
-    console.log("emit");
+    if("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(async pos => {
+        let coords = {lat: pos.coords.latitude, lon: pos.coords.longitude};
+        await this.socket.emit('update ping', coords);
+      });
+    } else {
+      console.log("called");
+      this.socket.emit('update ping', {});
+    }
     /* if(this.props.item) {
       const requestOptions = {
         method : 'POST',
@@ -59,12 +65,12 @@ class Main extends Component {
 
   render() {
     return (
-      <div className="h-100 row">
-        <div className="col d-flex align-items-center">
-          <div className="card">
+      <div className="outer-container h-100 row justify-content-center">
+        <div className="">
             <Player item={this.props.item} />
-            {JSON.stringify(this.state.response)}
-          </div>
+            <div className="card">
+              {JSON.stringify(this.state.response)}
+            </div>
         </div>
       </div>
     )

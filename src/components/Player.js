@@ -12,24 +12,25 @@ const Player = props => {
   };
 
   return (
-    <div className="">
+    <div className="card player">
       <div className="">
-        <div className="album-art">
-          <img src={props.item.album.images[0].url} />
+        <div className="card-img-top">
+          <img className="album-art" src={props.item.album.images[0].url} />
         </div>
-        <div className="">
-          <div className="">{props.item.name}</div>
-          <div className="">
-            {props.item.artists[0].name}
+        <div className="card-body">
+          <div className="card-title">{props.item.name}</div>
+          <div className="card-text">
+            {`${props.item.artists[0].name} - ${props.item.album.name}`}
           </div>
-          <div className="">
-            {props.is_playing ? "Playing" : "Paused"}
-          </div>
-          <div className="">
-            <div className="" style={progressBarStyles} />
+          <div className="btn-container">
+            <a
+              className="card-btn btn btn-success"
+              href={props.item.uri}
+            >
+              Play
+            </a>
           </div>
         </div>
-        <div className="" style={backgroundStyles} />
       </div>
     </div>
   );

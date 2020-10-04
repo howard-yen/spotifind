@@ -6,7 +6,7 @@ const LoginPage = props => {
     <div className="login-page h-100 row">
       <div className="col" />
       <div className="col d-flex align-items-center">
-        <div className="login-container">
+        <div className="card login-container">
           <div id="welcome">
             Welcome to XDDDd!
           </div>

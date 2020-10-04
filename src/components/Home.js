@@ -46,7 +46,6 @@ class Home extends Component {
   }
 
   componentDidUpdate() {
-    console.log(this);
   }
 
   tick() {
