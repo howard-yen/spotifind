@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import io from "socket.io-client";
+import Player from "./Player";
+
 const ENDPOINT = "http://127.0.0.1:5000";
 
 class Main extends Component {
@@ -60,6 +62,7 @@ class Main extends Component {
       <div className="h-100 row">
         <div className="col d-flex align-items-center">
           <div className="card">
+            <Player item={this.props.item} />
             {JSON.stringify(this.state.response)}
           </div>
         </div>
