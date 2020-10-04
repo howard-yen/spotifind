@@ -13,12 +13,14 @@ def main(clients, clients_location):
         data[userid] = []
         neighbor_ids = []
         neighbor_tokens = []
+
         for neighbor in neighbors:
-            if neighbor in nearby[user]:
+            if neighbor in nearby[userid]:
                 neighbor_ids.append(neighbor)
                 neighbor_tokens.append(clients[neighbor])
 
         data[userid] = get_neighbors_tracks(neighbor_tokens, neighbor_ids)
+    return data
 
 if __name__ == '__main__':
     locations = {
@@ -42,4 +44,5 @@ if __name__ == '__main__':
         "BQAmpB7EsifUEGI6EE7LixioQ_p7BO6gBUETdwMM8hbjR1Z2JP5EPwOJ3gwuz0FvVE-fBD7bOPfqq2yJwfAzCTiPpMkwH2rADvOxe36dPjQy_S1CrbGnQFGjf8_g57m0f8J2uwQDaaaHb1eUxiQWwx2ej6D-V4Im6QO4CsiGaAs"
     }
 
-    main(clients, locations)
+    tmp = main(clients, locations)
+    print(tmp)

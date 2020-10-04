@@ -18,17 +18,17 @@ def read_genres():
 
 def update_db(clients, clients_location):
     userdata = pd.read_csv('userdata.csv')
-
+    clients2 = clients.copy()
     ids = userdata['user_id'].to_numpy()
     for i in ids:
         if not i in clients:
             print(i)
             userdata.drop([i])
         else:
-            del clients[i]
+            del clients2[i]
 
     newclients = []
-    for i in clients:
+    for i in clients2:
         token = clients[i]
         top_tracks = get_top(token)
         tracks = get_features_from_tracks(token, top_tracks)

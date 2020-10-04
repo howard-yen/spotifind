@@ -19,15 +19,15 @@ def get_nearby():
     lats = userdata['lat'].to_numpy()
     lons = userdata['long'].to_numpy()
 
-    dists = np.zeros((len(ids), len(ids)))
+    dists = {}
     for i, (lat, lon) in enumerate(zip(lats, lons)):
-        dists[i] = hav_dist(lat, lon, lats, lons)
+        dists[ids[i]] = hav_dist(lat, lon, lats, lons)
 
     nearby_ids = {}
     for i in ids:
         nearby_ids[i] = []
-        for j, d in zip(ids, dists):
+        for j, d in zip(ids, dists[i]):
             if d <= NEARBY_THRESHOLD:
                 nearby_ids[i].append(j)
 
-    return np.array(nearby_ids)
+    return nearby_ids

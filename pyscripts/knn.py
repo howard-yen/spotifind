@@ -1,5 +1,6 @@
 from sklearn.neighbors import NearestNeighbors
 import numpy as np
+import pandas as pd
 
 def knn():
     userdata = pd.read_csv('userdata.csv')
@@ -7,9 +8,10 @@ def knn():
     X = userdata.iloc[:, 5:].to_numpy()
     nbrs = NearestNeighbors(n_neighbors=len(X), algorithm='auto').fit(X)
     _, indices = nbrs.kneighbors(X)
-    similarity = np.zeros(indices.shape, dtype='S30')
+    similarity = {}
     for i in range(indices.shape[0]):
-        for j in range(indices.shape[1]):
-            similarity[i][j] = ids[indices[i][j]]
+        similarity[ids[i]] = []
+        for j in range(1, indices.shape[1]):
+            similarity[ids[i]].append(ids[indices[i][j]])
 
-    return similarity 
+    return similarity
