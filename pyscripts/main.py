@@ -1,7 +1,7 @@
-from nearby import *
-from parse import *
-from knn import *
-from getinfo import *
+from .nearby import *
+from .parse import *
+from .knn import *
+from .getinfo import *
 
 def main(clients, clients_location):
     read_genres()

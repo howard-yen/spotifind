@@ -5,7 +5,7 @@ import pandas as pd
 def knn():
     userdata = pd.read_csv('userdata.csv')
     ids = userdata['user_id'].to_numpy()
-    X = userdata.iloc[:, 5:].to_numpy()
+    X = userdata.iloc[:, 4:].to_numpy()
     nbrs = NearestNeighbors(n_neighbors=len(X), algorithm='auto').fit(X)
     _, indices = nbrs.kneighbors(X)
     similarity = {}

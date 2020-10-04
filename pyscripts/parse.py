@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import scipy.sparse
-from getinfo import *
+from .getinfo import *
 
 genre_dict = dict()
 
@@ -20,12 +20,11 @@ def update_db(clients, clients_location):
     userdata = pd.read_csv('userdata.csv')
     clients2 = clients.copy()
     ids = userdata['user_id'].to_numpy()
-    for i in ids:
-        if not i in clients:
-            print(i)
+    for i, user_id in enumerate(ids):
+        if not user_id in clients:
             userdata.drop([i])
         else:
-            del clients2[i]
+            del clients2[user_id]
 
     newclients = []
     for i in clients2:
