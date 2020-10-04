@@ -14,6 +14,22 @@ def read_genres():
 
     return genre_dict
 
+def udpate_db(clients):
+    userdata = pd.read_csv('userdata.csv')
+    
+    ids = userdata['user_id'].to_numpy()
+    for i in ids:
+        if not i in clients:
+            userdata.drop([i])
+        else:
+            del clients[i]
+
+    for i in clients:
+        userdata.append([])
+
+    userdata.to_csv(index=False)
+    features.to_csv(index=False)
+
 # input the top tracks from spotify api
 # return a 1d array of the average track features
 def parse_track_features(track):
