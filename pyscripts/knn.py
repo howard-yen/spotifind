@@ -3,8 +3,8 @@ import numpy as np
 
 def knn():
     userdata = pd.read_csv('userdata.csv')
-    ids = df['user_id'].to_numpy()
-    X = df.iloc[:, 5:].to_numpy()
+    ids = userdata['user_id'].to_numpy()
+    X = userdata.iloc[:, 5:].to_numpy()
     nbrs = NearestNeighbors(n_neighbors=len(X), algorithm='auto').fit(X)
     _, indices = nbrs.kneighbors(X)
     similarity = np.zeros(indices.shape, dtype='S30')
