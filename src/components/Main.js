@@ -4,7 +4,7 @@ import Player from "./Player";
 import Card from "./Card";
 
 const PORT = process.env.PORT || 5000;
-const ENDPOINT = `https://ivyhacks-spotifind.herokuapp.com:${PORT}`;
+const ENDPOINT = `https://ivyhacks-spotifind.herokuapp.com`;
 
 class Main extends Component {
   constructor(props) {
