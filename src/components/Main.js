@@ -3,7 +3,8 @@ import io from "socket.io-client";
 import Player from "./Player";
 import Card from "./Card";
 
-const ENDPOINT = "https://ivyhacks-spotifind.herokuapp.com:5000";
+const PORT = process.env.PORT || 5000;
+const ENDPOINT = `https://ivyhacks-spotifind.herokuapp.com:${PORT}`;
 
 class Main extends Component {
   constructor(props) {
