@@ -3,6 +3,7 @@ import threading
 from flask import Flask, request
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
+from pyscripts.main import *
 
 app = Flask(__name__, static_folder='build/', static_url_path='/')
 CORS(app)
@@ -29,7 +30,8 @@ def on_connect():
 def handle_new_user(data):
     socket_id = request.sid
     clients[socket_id] = data
-    emit("update", clients_location, broadcast=True)
+    main(clients)
+    emit("update", clients, broadcast=True)
 
 @socketio.on('update ping')
 def handle_update_ping(data):
@@ -44,6 +46,7 @@ def on_disconnect():
         del clients[socket_id]
     if socket_id in clients_location:
         del clients_location[socket_id]
+    main(clients)
     print("disconnected!")
 
 @app.route('/')

@@ -13,7 +13,7 @@ def hav_dist(lat1, lon1, lat2, lon2):
     angle = 2 * np.arcsin(np.sqrt(hav))
     return angle
 
-def get_nearby(lat, lon):
+def get_nearby():
     userdata = pd.read_csv('userdata.csv', usecols=['user_id', 'latitude', 'longitude'])
     ids = userdata['user_id'].to_numpy()
     lats = userdata['latitude'].to_numpy()
@@ -21,9 +21,11 @@ def get_nearby(lat, lon):
 
     dists = hav_dist(lat, lon, lats, lons)
 
-    nearby_ids = []
-    for i, d in zip(ids, dists):
-        if d <= NEARBY_THRESHOLD:
-            nearby_ids.append(i)
+    nearby_ids = {}
+    for i in ids:
+        nearby_ids[i] = []
+        for j, d in zip(ids, dists):
+            if d <= NEARBY_THRESHOLD:
+                nearby_ids[i].append(j)
 
     return np.array(nearby_ids)
