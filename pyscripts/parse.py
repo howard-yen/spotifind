@@ -15,7 +15,7 @@ def read_genres():
 
     return genre_dict
 
-def udpate_db(clients):
+def udpate_db(clients, clients_location):
     userdata = pd.read_csv('userdata.csv')
     
     ids = userdata['user_id'].to_numpy()
@@ -30,7 +30,7 @@ def udpate_db(clients):
         track_feats = parse_track_features(tracks)
         genre_feats = parse_genres(artists)
         full_feats = combine_vectors(track_feats, genre_feats)
-        newclients.append([i] + [clients[i]] + full_feats.tolist())
+        newclients.append([i] + [clients[i]] + [clients_location[i].lat, clients_location[i].lon] + full_feats.tolist())
 
     for i in range(len(newclients)):
         userdata.loc[i] = newclients[i]

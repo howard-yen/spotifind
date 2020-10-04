@@ -64,7 +64,7 @@ def get_top_artists_genres(auth):
 def get_neighbors_tracks(usertokens, userids):
     result = {'items': []}
     for auth, user in zip(usertokens, userids):
-        top = get_top{auth, True, 1)
+        top = get_top(auth, True, 1)
         track = top['items'][0]['album']
         temp = {}
         temp['userid'] = user
