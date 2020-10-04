@@ -23,9 +23,9 @@ def get_nearby():
 
     nearby_ids = {}
     for i in ids:
-        nearby_ids[j] = []
+        nearby_ids[i] = []
         for j, d in zip(ids, dists):
             if d <= NEARBY_THRESHOLD:
-                nearby_ids[j].append(j)
+                nearby_ids[i].append(j)
 
     return np.array(nearby_ids)

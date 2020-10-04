@@ -2,13 +2,14 @@ import pandas as pd
 import numpy as np
 import scipy.sparse
 
+genre_dict = dict()
+
 def read_genres():
     genre_csv = pd.read_csv('genres.csv')
 
     nums = genre_csv['number'].to_numpy()
     genre = genre_csv['genre'].to_numpy()
 
-    genre_dict = dict()
     for i in nums:
         genre_dict[genre[i-1]] = i
 
@@ -24,16 +25,22 @@ def udpate_db(clients):
         else:
             del clients[i]
 
+    newclients = []
     for i in clients:
-        userdata.append([])
+        track_feats = parse_track_features(tracks)
+        genre_feats = parse_genres(artists)
+        full_feats = combine_vectors(track_feats, genre_feats)
+        newclients.append([i] + [clients[i]] + full_feats.tolist())
+
+    for i in range(len(newclients)):
+        userdata.loc[i] = newclients[i]
 
     userdata.to_csv(index=False)
-    features.to_csv(index=False)
 
 # input the top tracks from spotify api
 # return a 1d array of the average track features
-def parse_track_features(track):
-    audio_features = track['audio_features']
+def parse_track_features(tracks):
+    audio_features = tracks['audio_features']
     feature_vec = np.zeros((len(audio_features), 8))
 
     for i, row in enumerate(audio_features):
@@ -48,7 +55,7 @@ def parse_track_features(track):
 
     return feature_vec.mean(0)
 
-def parse_genres(artists, genre_dict):
+def parse_genres(artists):
     genre_vec = np.zeros((1000))
     for artist in artists:
         for genre in artist:

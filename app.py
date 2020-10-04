@@ -42,6 +42,7 @@ def on_disconnect():
     socket_id = request.sid
     if socket_id in clients:
         del clients[socket_id]
+    main(clients)
     print("disconnected!")
 
 @app.route('/')
