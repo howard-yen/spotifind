@@ -37,8 +37,7 @@ def handle_update_ping(data):
     socket_id = request.sid
     clients_location[socket_id] = data
     print(clients_location)
-    main(clients, clients_location)
-    emit("update", clients_location, broadcast=True)
+    emit("update", main(clients, clients_location))
 
 @socketio.on('disconnect')
 def on_disconnect():
@@ -47,7 +46,7 @@ def on_disconnect():
         del clients[socket_id]
     if socket_id in clients_location:
         del clients_location[socket_id]
-    main(clients, clients_location)
+    emit("update", main(clients, clients_location))
     print("disconnected!")
 
 @app.route('/')
