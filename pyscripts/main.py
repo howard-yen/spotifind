@@ -4,33 +4,26 @@ from .knn import *
 from .getinfo import *
 
 def main(clients, clients_location):
-    if(len(clients) == 0):
-        return {}
-
     read_genres()
     length = update_db(clients, clients_location)
 
-    if(length == 0):
-        return {}
-
     nearby = get_nearby()
-
-
 
     similarity = knn()
     data = {}
 
-    for userid, neighbors in similarity.items():
-        data[userid] = []
-        neighbor_ids = []
-        neighbor_tokens = []
+    if(length != 0):
+        for userid, neighbors in similarity.items():
+            data[userid] = []
+            neighbor_ids = []
+            neighbor_tokens = []
 
-        for neighbor in neighbors:
-            if neighbor in nearby[userid]:
-                neighbor_ids.append(neighbor)
-                neighbor_tokens.append(clients[neighbor])
+            for neighbor in neighbors:
+                if neighbor in nearby[userid] and neighbor in clients:
+                    neighbor_ids.append(neighbor)
+                    neighbor_tokens.append(clients[neighbor])
 
-        data[userid] = get_neighbors_tracks(neighbor_tokens, neighbor_ids)
+            data[userid] = get_neighbors_tracks(neighbor_tokens, neighbor_ids)
     return data
 
 if __name__ == '__main__':
