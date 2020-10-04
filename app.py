@@ -12,14 +12,7 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 
 clients = dict()
 clients_location = dict()
-
-def set_interval(func, sec):
-    def func_wrapper():
-        set_interval(func, sec)
-        func()
-    t = threading.Timer(sec, func_wrapper)
-    t.start()
-    return t
+client_info = dict()
 
 @socketio.on('connect')
 def on_connect():
@@ -30,14 +23,15 @@ def on_connect():
 def handle_new_user(data):
     socket_id = request.sid
     clients[socket_id] = data
-    emit("update", clients, broadcast=True)
+    new_data = main(clients, clients_location)[socket_id]
+    emit("update", new_data)
 
 @socketio.on('update ping')
 def handle_update_ping(data):
     socket_id = request.sid
     clients_location[socket_id] = data
-    print(clients_location)
-    emit("update", main(clients, clients_location))
+    new_data = main(clients, clients_location)
+    emit("update", new_data)
 
 @socketio.on('disconnect')
 def on_disconnect():
@@ -46,7 +40,6 @@ def on_disconnect():
         del clients[socket_id]
     if socket_id in clients_location:
         del clients_location[socket_id]
-    emit("update", main(clients, clients_location))
     print("disconnected!")
 
 @app.route('/')

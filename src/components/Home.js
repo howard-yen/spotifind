@@ -69,8 +69,6 @@ class Home extends Component {
           return;
         }
 
-        console.log(data);
-
         this.setState({
           item: data.item,
           no_data: false /* We need to "reset" the boolean, in case the
@@ -83,7 +81,7 @@ class Home extends Component {
   render() {
     return (
       <div className="home">
-        <div className="main-page container">
+        <div className="main-page">
           {/* Not logged in */ }
           {!this.state.token && (
             <LoginPage />

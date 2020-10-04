@@ -45,6 +45,8 @@ def update_db(clients, clients_location):
     with open('userdata.csv', 'w') as f:
         userdata.to_csv(f, index=False)
 
+    return len(userdata.index)
+
 # input the top tracks from spotify api
 # return a 1d array of the average track features
 def parse_track_features(tracks):

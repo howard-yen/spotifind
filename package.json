@@ -16,7 +16,9 @@
     "socket.io-client": "^2.3.1"
   },
   "devDependencies": {
-    "npm-watch": "^0.6.0"
+    "file-loader": "^6.1.0",
+    "npm-watch": "^0.6.0",
+    "url-loader": "^4.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
