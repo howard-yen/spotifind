@@ -24,7 +24,3 @@ This was all our first times using Flask, and we initially had a lot of trouble 
 ## What's next for Spotifind
 Currently, Spotifind is primarily a song recommender based on location and the user's tastes. **We hope to expand the scope of the application, and eventually add features such as allowing users to add social media accounts and learn playlists.** Our vision of Spotifind is a platform where people can find connections with others they never would have met otherwise, through the universal language of music.
 
-## Accomplishments that we're proud of
-Our biggest accomplishment was being able to combine our React frontend and Python backend using Flask to create a robust application. We had to stitch together a variety of elements, including sending data both ways between React and Python. Though we initially ran into problems with getting everything to work together nicely, finally connecting all the pieces and seeing it all work in tandem was incredibly rewarding.
-
-
