@@ -6,12 +6,12 @@
 ## Inspiration
 As humans, we all have unique tastes in music. Most of us tend to prefer specific genres and create playlists based on our personalized tastes. However, **we often get bored with the songs we listen to day after day, hoping to try something new or see what the people around us are listening to.** For example, you might want to find out what music the guy across the room is nodding his head to, or maybe you're on a vacation, and you want to find out what some of the locals are listening to. As of now, **there is no good way to satisfy your curiosity**, other than going over to someone, interrupting their music, and asking them what they're listening to. **What if there was an intuitive way and streamlined way to connect people's music tastes?**
 
-![image](example_1.PNG)
+![image](example_1.png)
 
 ## What it does
 With this problem in mind, our team designed Spotifind, an application that allows you to use your Spotify account and **choose from a list of recommended songs which are curated from nearby users**. Each nearby person's music tastes are compared to yours, and **we sort them using a machine learning algorithm so that songs that are most similar to the user's current top tracks and artists will be displayed first**. So you can either start at the top and work your way down, or start at the bottom and work your way up, depending on whether you want to listen to music you're likely to enjoy, or just find out what crazy new music is out there. From this list, users have the choice to either play the song directly through the web app, or go to the song itself on Spotify.
 
-![image](example_2.PNG)
+![image](example_2.png)
 
 ## How we built it
 We built the **frontend using React** and the **backend using Python**, connecting the two through **Flask/SocketIO**. We used the **Spotify API** to collect music data about individual users, such as their top songs and artists. To get user location, we simply used the the **web browser geolocation API**, which gave us a latitude and longitude. To check if two people are nearby, we used the **haversine formula** to calculate the distance between them based on their latitude and longitude. Finally, we used a  **k-nearest neighbors algorithm** to calculate similarity between users, so that the music they see is sorted in order of most to least similar to their own preferences. Everything was deployed using Heroku.
