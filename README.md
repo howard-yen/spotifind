@@ -3,6 +3,9 @@
   <img src="https://raw.githubusercontent.com/mathewjhan/spotifind/master/logo.png" alt="">
 </p>
 
+![video](https://www.youtube.com/watch?v=V34ltGu_nWE)
+![demo](https://ivyhacks-spotifind.herokuapp.com/)
+
 ## Inspiration
 As humans, we all have unique tastes in music. Most of us tend to prefer specific genres and create playlists based on our personalized tastes. However, **we often get bored with the songs we listen to day after day, hoping to try something new or see what the people around us are listening to.** For example, you might want to find out what music the guy across the room is nodding his head to, or maybe you're on a vacation, and you want to find out what some of the locals are listening to. As of now, **there is no good way to satisfy your curiosity**, other than going over to someone, interrupting their music, and asking them what they're listening to. **What if there was an intuitive way and streamlined way to connect people's music tastes?**
 
